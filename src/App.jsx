@@ -20,168 +20,154 @@ import FormHelperText from '@mui/material/FormHelperText';
 import { useState } from 'react';
 
 function App() {
-
-  //-------------------Text min 70 word hhh -------------
-  const [inputValue, setInputValue] = useState('');
+  const [formData, setFormData] = useState({
+    name: "",
+    discord: "",
+    email: "",
+    text: "",
+    selectedCheckboxes: [],
+  });
   const [submitted, setSubmitted] = useState(false);
 
-  const minWordCount = 70;
+  const fields = [
+    "UI/UX Design",
+    "Web Dev",
+    "Git/Linux",
+    "Intro to AI",
+    "3D Modeling",
+  ];
 
   const handleInputChange = (event) => {
-    setInputValue(event.target.value);
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setSubmitted(true);
+    const {name, email, discord, selectedCheckboxes, text} = formData;
+    if (!name || !email || !discord || !selectedCheckboxes.length || !text || !validText()) return;
+    console.log(formData);
   };
 
-  const validateInput = () => {
-    if (!submitted) {
-      return true; // makach erreur avant la soumission
-    }
-    
-    const wordCount = inputValue.split(/\s+/).filter((word) => word !== '').length;
-    return wordCount >= minWordCount;
+  const validText = () => {
+    return formData.text.trim().split(/\s+/).length >= 70;
   };
-
-  //---------------- Max 3 fields
-  const maxChecked = 3;
-  const [checkedCount, setCheckedCount] = useState(0);
 
   const handleCheckboxChange = (event) => {
+    const value = event.target.value;
     const isChecked = event.target.checked;
-    const newCount = isChecked ? checkedCount + 1 : checkedCount - 1;
 
-    if (newCount <= maxChecked) {
-      setCheckedCount(newCount);
+    if (isChecked && formData.selectedCheckboxes.length >= 3) {
+      return;
     }
-    // else => empêche la coche
+
+    const updatedCheckboxes = isChecked
+      ? [...formData.selectedCheckboxes, value]
+      : formData.selectedCheckboxes.filter((item) => item !== value);
+
+    setFormData({
+      ...formData,
+      selectedCheckboxes: updatedCheckboxes,
+    });
   };
 
-  //bool pour verifier user a coché plus de 3
-  const hasExceededMaxChecked = checkedCount > maxChecked;
-  //if yes (checker plus de 3 error = true)
-
- 
-  
   return (
-
     <div className="App">
       <div className="image-container">
         <img src={image} alt="Image" />
       </div>
 
-      <div className='Inputs'>  
-      <TextField fullWidth
-        id="fullWidth"
-        label="Full Name" 
-        variant="outlined" 
-      />
-      <TextField fullWidth
-       id="fullWidth" 
-       label="Discord ID" 
-       variant="outlined" 
-      />
-      <TextField fullWidth
-        id="fullWidth" 
-        type='email'
-        label="E-mail Adresse" 
-        variant="outlined" 
-      />
-      
-      <FormControl>
-       <FormLabel id="demo-checkbox-group-label">Field</FormLabel>
-       <FormGroup aria-labelledby="demo-checkbox-group-label">
-       <FormControlLabel
-            control={<Checkbox onChange={handleCheckboxChange} />}
-            label="UI/UX Design"
-          />
-          <FormControlLabel
-            control={<Checkbox onChange={handleCheckboxChange} />}
-            label="Web Dev"
-          />
-          <FormControlLabel
-            control={<Checkbox onChange={handleCheckboxChange} />}
-            label="Git/Linux"
-          />
-          <FormControlLabel
-            control={<Checkbox onChange={handleCheckboxChange} />}
-            label="Intro to AI"
-          />
-          <FormControlLabel
-            control={<Checkbox onChange={handleCheckboxChange} />}
-            label="3D Modeling"
-          />
-       </FormGroup>
-       {hasExceededMaxChecked && (
-          <FormHelperText>Maximum 3 Fields allowed.</FormHelperText>
-        )}
-      </FormControl>
+      <form onSubmit={handleSubmit} className="Inputs">
+        <TextField
+          fullWidth
+          id="name"
+          label="Full Name"
+          variant="outlined"
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
+          error={submitted && !formData.name.trim()}
+        />
+        <TextField
+          fullWidth
+          id="discord"
+          label="Discord ID"
+          variant="outlined"
+          name="discord"
+          value={formData.discord}
+          onChange={handleInputChange}
+          error={submitted && !formData.name.trim()}
+        />
+        <TextField
+          fullWidth
+          id="email"
+          type="email"
+          label="E-mail Adresse"
+          variant="outlined"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          error={submitted && !formData.name.trim()}
+        />
 
+        <FormControl component="fieldset">
+          <FormLabel>Field</FormLabel>
+          <FormGroup>
+            {fields.map((field) => (
+              <FormControlLabel
+                key={field}
+                control={
+                  <Checkbox
+                    value={field}
+                    checked={formData.selectedCheckboxes.includes(field)}
+                    onChange={handleCheckboxChange}
+                  />
+                }
+                label={field}
+              />
+            ))}
+          </FormGroup>
+          {submitted && formData.selectedCheckboxes.length === 0 && (
+            <FormHelperText>
+              At least one field must be selected.
+            </FormHelperText>
+          )}
+        </FormControl>
 
-      <TextField fullWidth
-          id="fullWidth"
-          label="What did u got from the trainings"
+        <TextField
+          fullWidth
+          id="text"
+          label="What did you get from the trainings"
           multiline
           rows={4}
-          value={inputValue}
+          name="text"
+          value={formData.text}
           onChange={handleInputChange}
-          error={!validateInput()}
-          helperText={
-            !validateInput() ? `Minimum word count: ${minWordCount}` : ''
-          }
-      />
-      </div>
+          error={submitted && !validText()}
+          helperText={!validText() ? `Minimum word count: ${70}` : ""}
+        />
 
+        <div className="send-button">
+          <Stack direction="row" spacing={2}>
+            <Button
+              type="submit"
+              variant="contained"
+              endIcon={<SendIcon />}
+              disabled={false}
+            >
+              Send
+            </Button>
+          </Stack>
+        </div>
+      </form>
 
+      <p className="text">
+        Cheers to all our amazing participants who made this Summer School an
+        unforgettable journey! 🌞
+      </p>
 
-    <div className='send-button'>
-    <Stack direction="row" spacing={2}>
-      <Button type= "submit" variant="contained" endIcon={<SendIcon />}>
-        Send
-      </Button>
-    </Stack>
-    </div>
-
-    <p className="text">
-        Cheers to all our amazing participants who made this Summer School an unforgettable journey! 🌞
-    </p>
-
-    
-      {/* <div className="image-corner"> 
-        <img src={tree} alt="Image-tree" />
-      </div>  */}
-
-    <div className='social-icons'>
-      <a href=''>
-        <button className='icon'>
-          <img src= {fcb} alt='facebook-icon'/>
-        </button>
-      </a>
-
-      <a href=''>
-        <button className='icon'>
-          <img src={twitter} alt='twitter-icon'/>
-        </button>
-      </a>
-
-      <a href=''>
-        <button className='icon'>
-          <img src={insta} alt='insta-icon'/>
-        </button>
-      </a>
-
-      <a href=''>
-        <button className='icon'>
-          <img src= {linkd} alt='linkd-icon'/>
-        </button>
-      </a>
-
-
-    </div>
-
-      
+      <div className="social-icons">{/* Social icons here */}</div>
     </div>
   );
 }
