@@ -72,6 +72,7 @@ function App() {
         <img src={image} alt="Image" />
       </div>
 
+      <p> To assist us in accurately completing your certificate, please provide the following information.</p>
       <div className='Inputs'>  
       <TextField fullWidth
         id="fullWidth"
