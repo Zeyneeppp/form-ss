@@ -1,7 +1,6 @@
 import './App.scss';
 import * as React from 'react';
-import image from "./img/logo.png";
-import tree from "./img/tree.png";
+import image from "./img/logos.svg";
 import insta from "./img/insta.png";
 import fcb from "./img/fcb.png";
 import twitter from "./img/twitter.png";
@@ -15,9 +14,9 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Checkbox from '@mui/material/Checkbox';
-import hij from "./img/hij.png";
 import FormHelperText from '@mui/material/FormHelperText';
 import { useState } from 'react';
+import palmsImage from "./img/palms.svg";
 
 function App() {
   const [formData, setFormData] = useState({
@@ -74,6 +73,9 @@ function App() {
 
   return (
     <div className="App">
+      <div className='image-corner'>
+        <img src={palmsImage} alt="" />
+      </div>
       <div className="image-container">
         <img src={image} alt="Image" />
       </div>
