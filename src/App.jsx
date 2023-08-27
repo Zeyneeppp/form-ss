@@ -77,6 +77,8 @@ function App() {
       <div className="image-container">
         <img src={image} alt="Image" />
       </div>
+      <p> To assist us in accurately completing your certificate, please provide the following informations.</p>
+      <br />
 
       <form onSubmit={handleSubmit} className="Inputs">
         <TextField
