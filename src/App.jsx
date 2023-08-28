@@ -79,7 +79,9 @@ function App() {
       <div className="image-container">
         <img src={image} alt="Image" />
       </div>
-      <p> To assist us in accurately completing your certificate, please provide the following informations.</p>
+      <p className='cheers-message'> To assist us in accurately completing your certificate, please provide the following informations.</p>
+      <br />
+      <p>Please provide your full name as it should appear on the certificate.</p>
       <br />
 
       <form onSubmit={handleSubmit} className="Inputs">
@@ -115,8 +117,8 @@ function App() {
           error={submitted && !formData.name.trim()}
         />
 
-        <FormControl component="fieldset">
-          <FormLabel>Field</FormLabel>
+        <FormControl className='checkboxes' component="fieldset">
+          <FormLabel>Which field(s) did you attend?</FormLabel>
           <FormGroup>
             {fields.map((field) => (
               <FormControlLabel
@@ -133,7 +135,7 @@ function App() {
             ))}
           </FormGroup>
           {submitted && formData.selectedCheckboxes.length === 0 && (
-            <FormHelperText>
+            <FormHelperText className='helpertext'>
               At least one field must be selected.
             </FormHelperText>
           )}
@@ -142,7 +144,7 @@ function App() {
         <TextField
           fullWidth
           id="text"
-          label="What did you get from the trainings"
+          label="What did you gain from the Summer School training?"
           multiline
           rows={4}
           name="text"
@@ -166,12 +168,34 @@ function App() {
         </div>
       </form>
 
-      <p className="text">
+      <p className="cheers-message">
         Cheers to all our amazing participants who made this Summer School an
         unforgettable journey! 🌞
       </p>
 
-      <div className="social-icons">{/* Social icons here */}</div>
+      <div className="social-icons">
+        {/* Social icons here */}
+        <a href=''>
+        <button className='icon'>
+          <img src= {fcb} alt='facebook-icon'/>
+        </button>
+      </a>
+      <a href=''>
+        <button className='icon'>
+          <img src={twitter} alt='twitter-icon'/>
+        </button>
+      </a>
+      <a href=''>
+        <button className='icon'>
+          <img src={insta} alt='insta-icon'/>
+        </button>
+      </a>
+      <a href=''>
+        <button className='icon'>
+          <img src= {linkd} alt='linkd-icon'/>
+        </button>
+      </a>
+        </div>
     </div>
   );
 }
