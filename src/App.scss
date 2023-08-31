@@ -93,6 +93,8 @@
     color: #333; /* Couleur du texte */
     text-align: center; /* Alignement du texte */
     margin: 20px 0; /* Marge autour du texte */
+    z-index: 10;
+    line-height: 1.9em;
   }
 
   .social-icons {
@@ -122,6 +124,13 @@
   }
   .success {
     color: green;
+  }
+  .highlight {
+    display: inline;
+    padding: .25em 0;
+    background: #fff;
+    box-shadow: .5em 0 0 #fff, -.5em 0 0 #fff;
+    border-radius: 40%;
   }
   @media only screen and (max-width: 700px) {
     // overflow: hidden;

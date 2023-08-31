@@ -214,8 +214,10 @@ function App() {
       <p id="msg"></p>
 
       <p className="cheers-message">
+        <span className='highlight'>
         Cheers to all our amazing participants who made this Summer School an
         unforgettable journey! 🌞
+        </span>
       </p>
 
       <div className="social-icons">
