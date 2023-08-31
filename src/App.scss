@@ -108,5 +108,16 @@
     width: 30px;
     height: auto;
   }
+
+  #msg {
+    margin: 0 auto;
+    padding: 1em;
+  }
+  .error {
+    color: red;
+  }
+  .success {
+    color: green;
+  }
  
 }

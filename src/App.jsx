@@ -44,9 +44,47 @@ function App() {
   const handleSubmit = (event) => {
     event.preventDefault();
     setSubmitted(true);
-    const {name, email, discord, selectedCheckboxes, text} = formData;
-    if (!name || !email || !discord || !selectedCheckboxes.length || !text || !validText()) return;
-    console.log(formData);
+    const { name, email, discord, selectedCheckboxes, text } = formData;
+    if (
+      !name ||
+      !email ||
+      !discord ||
+      !selectedCheckboxes.length ||
+      !text ||
+      !validText()
+    )
+      return;
+
+    const msg = document.getElementById("msg");
+    msg.innerHTML = "";
+
+    const body = {
+      name,
+      email,
+      discord,
+      text,
+      fields: selectedCheckboxes,
+    };
+
+    fetch("https://form-ss-api.onrender.com/register", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.err) {
+          msg.innerHTML = `<p class="error">${data.errors[0].msg}</p>`;
+          msg.class = "error";
+        } else {
+          msg.innerHTML = `<p class="success">${data.msg}</p>`;
+          msg.class = "success";
+          document.getElementById("form").reset();
+        }
+      });
   };
 
   const validText = () => {
@@ -73,18 +111,24 @@ function App() {
 
   return (
     <div className="App">
-      <div className='image-corner'>
+      <div className="image-corner">
         <img src={palmsImage} alt="" />
       </div>
       <div className="image-container">
         <img src={image} alt="Image" />
       </div>
-      <p className='cheers-message'> To assist us in accurately completing your certificate, please provide the following informations.</p>
+      <p className="cheers-message">
+        {" "}
+        To assist us in accurately completing your certificate, please provide
+        the following informations.
+      </p>
       <br />
-      <p>Please provide your full name as it should appear on the certificate.</p>
+      <p>
+        Please provide your full name as it should appear on the certificate.
+      </p>
       <br />
 
-      <form onSubmit={handleSubmit} className="Inputs">
+      <form id="form" onSubmit={handleSubmit} className="Inputs">
         <TextField
           fullWidth
           id="name"
@@ -117,7 +161,7 @@ function App() {
           error={submitted && !formData.name.trim()}
         />
 
-        <FormControl className='checkboxes' component="fieldset">
+        <FormControl className="checkboxes" component="fieldset">
           <FormLabel>Which field(s) did you attend?</FormLabel>
           <FormGroup>
             {fields.map((field) => (
@@ -135,7 +179,7 @@ function App() {
             ))}
           </FormGroup>
           {submitted && formData.selectedCheckboxes.length === 0 && (
-            <FormHelperText className='helpertext'>
+            <FormHelperText className="helpertext">
               At least one field must be selected.
             </FormHelperText>
           )}
@@ -167,6 +211,7 @@ function App() {
           </Stack>
         </div>
       </form>
+      <p id="msg"></p>
 
       <p className="cheers-message">
         Cheers to all our amazing participants who made this Summer School an
@@ -175,27 +220,27 @@ function App() {
 
       <div className="social-icons">
         {/* Social icons here */}
-        <a href=''>
-        <button className='icon'>
-          <img src= {fcb} alt='facebook-icon'/>
-        </button>
-      </a>
-      <a href=''>
-        <button className='icon'>
-          <img src={twitter} alt='twitter-icon'/>
-        </button>
-      </a>
-      <a href=''>
-        <button className='icon'>
-          <img src={insta} alt='insta-icon'/>
-        </button>
-      </a>
-      <a href=''>
-        <button className='icon'>
-          <img src= {linkd} alt='linkd-icon'/>
-        </button>
-      </a>
-        </div>
+        <a href="">
+          <button className="icon">
+            <img src={fcb} alt="facebook-icon" />
+          </button>
+        </a>
+        <a href="">
+          <button className="icon">
+            <img src={twitter} alt="twitter-icon" />
+          </button>
+        </a>
+        <a href="">
+          <button className="icon">
+            <img src={insta} alt="insta-icon" />
+          </button>
+        </a>
+        <a href="">
+          <button className="icon">
+            <img src={linkd} alt="linkd-icon" />
+          </button>
+        </a>
+      </div>
     </div>
   );
 }
