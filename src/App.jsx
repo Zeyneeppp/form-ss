@@ -1,10 +1,10 @@
 import './App.scss';
 import * as React from 'react';
 import image from "./img/logos.svg";
-import insta from "./img/insta.png";
-import fcb from "./img/fcb.png";
-import twitter from "./img/twitter.png";
-import linkd from "./img/linkd.png";
+import insta from "./img/instagram.svg";
+import fcb from "./img/facebook.svg";
+import twitter from "./img/twitter.svg";
+import linkd from "./img/linkedin.svg";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
@@ -179,7 +179,7 @@ function App() {
             ))}
           </FormGroup>
           {submitted && formData.selectedCheckboxes.length === 0 && (
-            <FormHelperText className="helpertext">
+            <FormHelperText className="helpertext error">
               At least one field must be selected.
             </FormHelperText>
           )}

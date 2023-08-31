@@ -16,6 +16,7 @@
   background-repeat: no-repeat; 
   height: 100vh; 
   overflow-y: scroll;
+  padding: 1em;
 
   .image-container {
     margin-bottom: 20px; // Espacement entre img et le bas de la page
@@ -30,7 +31,8 @@
     display: flex;
     flex-direction: column;
     //align-items: center;
-    width: 500px;
+    width: 100%;
+    max-width: 500px;
     //gap: 15px; // Espacement entre les inputs
     
     .FormControl{
@@ -50,8 +52,10 @@
     }
   }
   .checkboxes{
-   
+    background-color: white;
     text-align: left;
+    padding: 1em;
+    margin-bottom: 1em;
   }
   
 
@@ -119,5 +123,7 @@
   .success {
     color: green;
   }
- 
+  @media only screen and (max-width: 700px) {
+    // overflow: hidden;
+  }
 }
