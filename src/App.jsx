@@ -27,6 +27,7 @@ function App() {
     selectedCheckboxes: [],
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const fields = [
     "UI/UX Design",
@@ -43,6 +44,7 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true);
     setSubmitted(true);
     const { name, email, discord, selectedCheckboxes, text } = formData;
     if (
@@ -84,18 +86,23 @@ function App() {
           msg.class = "success";
           document.getElementById("form").reset();
         }
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
       });
   };
 
   const validText = () => {
-    return formData.text.trim().split(/\s+/).length >= 70;
+    return formData.text.trim().split(/\s+/).length >= 50;
   };
 
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
     const isChecked = event.target.checked;
 
-    if (isChecked && formData.selectedCheckboxes.length >= 3) {
+    if (isChecked && formData.selectedCheckboxes.length >= 2) {
       return;
     }
 
@@ -195,7 +202,7 @@ function App() {
           value={formData.text}
           onChange={handleInputChange}
           error={submitted && !validText()}
-          helperText={!validText() ? `Minimum word count: ${70}` : ""}
+          helperText={!validText() ? `Minimum word count: ${50}` : ""}
         />
 
         <div className="send-button">
@@ -204,7 +211,7 @@ function App() {
               type="submit"
               variant="contained"
               endIcon={<SendIcon />}
-              disabled={false}
+              disabled={loading}
             >
               Send
             </Button>
